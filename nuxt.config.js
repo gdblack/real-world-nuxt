@@ -1,3 +1,5 @@
+import EventService from './services/EventService.js';
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -13,6 +15,11 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+
+  /*
+  ** Customize the progress-bar color
+  */
+  loading: { color: '#39b982' },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [],
@@ -43,4 +50,13 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+  generate: {
+    routes: () => {
+      return EventService.getEvents().then(response => {
+        return response.data.map(event => {
+          return '/event/' + event.id
+        })
+      })
+    }
+  }
 }
